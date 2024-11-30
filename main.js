@@ -23,11 +23,12 @@ function startTimer() {
 
 // Function to generate a new equation
 function generateEquation() {
-    const [eqType,eqMin,eqMax] = document.getElementById('game-type').value.split('-');
+    const [eqType,eqMin,eqMax,staticNumber] = document.getElementById('game-type').value.split('-');
     const min = parseInt(eqMin, 10);
     const max = parseInt(eqMax, 10);
+    const static = parseInt(staticNumber, 10);
 
-    const num1 = Math.floor(Math.random() * (max-min+1)) + min;
+    const num1 = !isNaN(static) ? staticNumber : Math.floor(Math.random() * (max-min+1)) + min;
     const num2 = Math.floor(Math.random() * (max-min+1)) + min;
 
     currentEquation = { num1, num2}; // Store the equation and answer
