@@ -69,9 +69,18 @@ function generateEquation() {
     document.getElementById('equation').innerText = `${num1} ${sign} ${num2} = ?`; // Display the equation
 }
 
+function updateURLWithGameName() {
+    const gameName = document.getElementById('game-type').value;
+    const newUrl = `${window.location.origin}${window.location.pathname}?game=${gameName}`;
+    window.history.pushState({ game: gameName }, '', newUrl);
+}
+
 function onStart() {
+    console.log("Starting game: ", document.getElementById('game-type').value);
     document.getElementById('menu').style.display = 'none';
-    
+    document.getElementById('exit-game').style.display = 'block'; // Show the exit button
+
+    updateURLWithGameName(); // Push the game name to the URL
     startTimer();
     generateEquation(); // Generate the first equation
     document.getElementById('startSound').play();
@@ -169,4 +178,57 @@ document.getElementById('result').addEventListener('keydown', function(event) {
 
 document.getElementById('input-click').querySelectorAll('button').forEach(button => {
     button.addEventListener('click', () => { handleSubmit(button.value) });
-}); 
+});
+
+document.getElementById('exit-button').addEventListener('click', () => {
+    const userConfirmed = confirm('Are you sure you want to exit?');
+    if (userConfirmed) {
+        resetGame();
+        window.history.pushState({}, '', window.location.pathname); // Clear game state from URL
+    }
+});
+
+function resetGame() {
+    console.log("Resetting game");
+    window.history.pushState({}, '', window.location.pathname);
+    clearInterval(timer);
+    totalTime = 10;
+    points = 0;
+    history.length = 0;
+
+    document.getElementById('menu').style.display = 'block';
+    document.getElementById('exit-game').style.display = 'none'; // Hide the exit button
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('equation').innerText = '';
+    document.getElementById('points').innerText = 'Points: 0';
+    document.getElementById('timer').innerText = 'Time: 00:00';
+    document.getElementById('input-click').style.display = 'none';
+    document.getElementById('input-write').style.display = 'none';
+
+    const historyList = document.getElementById('history');
+    while (historyList.firstChild) {
+        historyList.removeChild(historyList.firstChild);
+    }
+}
+
+window.addEventListener('popstate', (event) => {
+    resetGame();
+    if (event.state && event.state.game) {
+        document.getElementById('game-type').value = event.state.game;
+        onStart();
+    }
+});
+
+function initializeGameFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameParam = urlParams.get('game');
+
+    if (gameParam) {
+        document.getElementById('game-type').value = gameParam;
+        onStart();
+    }
+}
+
+// Call the function on page load
+window.addEventListener('load', initializeGameFromURL);
+

@@ -11,15 +11,16 @@
 <div class="container">
     <div id="menu">
         <select id="game-type">
+            <option value="multi-1-10">multiplication 1-10</option>
+            <option value="multi-1-5">multiplication 1-5</option>
+            <option value="multi-4-9">multiplication 4-9</option>
+            <option value="multi-6-8">multiplication 6-8</option>
+            <option value="multi-1-10-7">multiplication 7</option>
+            <option value="multi-1-10-8">multiplication 8</option>
             <option value="add-0-10">addition 0-10</option>
             <option value="add-0-100">addition 0-100</option>
             <option value="sub-0-10">subtraction 0-10</option>
             <option value="sub-0-100">subtraction 0-100</option>
-            <option value="multi-1-5">multiplication 1-5</option>
-            <option value="multi-1-10">multiplication 1-10</option>
-            <option value="multi-1-10-7">multiplication #6</option>
-            <option value="multi-1-10-7">multiplication #7</option>
-            <option value="multi-1-10-7">multiplication #8</option>
         </select>
         <div>Time: <input type="number" id="game-time" autofocus value="5" />min</div>
         <button id="start">Start</button>
@@ -35,6 +36,9 @@
         </div>
         <div id="timer">Time: 00:00</div>
         <div id="points">Points: 0</div>
+        <div id="exit-game">
+            <button id="exit-button">X</button>
+        </div>
     </div>
 </div>
 
